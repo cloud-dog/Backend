@@ -4,6 +4,11 @@ import com.example.clouddog.member.api.dto.request.FriendSaveReqDto;
 import com.example.clouddog.member.api.dto.request.MemberProfileUpdateReqDto;
 import com.example.clouddog.member.api.dto.respnse.MemberResDto;
 import com.example.clouddog.member.application.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +56,11 @@ public class MemberController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
+    @Operation(summary = "친구 정보 리스트", description = "친구 정보 리스트를 불러옵니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치", content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
+    })
     @GetMapping("/{memberId}/friends")
     public ResponseEntity<Page<MemberResDto>> friendsInfoList(@PathVariable(name = "memberId") Long memberId,
                                                               @RequestParam(value = "page", defaultValue = "0") int page,
