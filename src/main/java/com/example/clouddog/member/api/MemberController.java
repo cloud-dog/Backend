@@ -49,6 +49,11 @@ public class MemberController {
         return new ResponseEntity<>(memberService.friendInfo(friendEmail), HttpStatus.OK);
     }
 
+    @Operation(summary = "친구 추가", description = "친구 추가합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치", content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
+    })
     @PostMapping("/{memberId}/friend")
     public ResponseEntity<String> friendAdd(@PathVariable(name = "memberId") Long memberId,
                                             @RequestBody FriendSaveReqDto friendSaveReqDto) {
