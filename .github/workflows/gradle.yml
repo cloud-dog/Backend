@@ -42,13 +42,12 @@ jobs:
           echo "${{ secrets.YML_PROD }}" > ./application-prod.yml
         shell: bash
 
-        # serviceAccountKey.json 생성
-      - name: make serviceAccountKey.json
-        run: |
-          cd ./src/main/resources
-          touch ./serviceAccountKey.json
-          echo "${{ secrets.SERVICE_ACCOUNT_KEY }}" > ./serviceAccountKey.json
-        shell: bash
+      #        # serviceAccountKey.json 생성
+      #      - name: make serviceAccountKey.json
+      #        run: |
+      #          touch ./serviceAccountKey.json
+      #          echo "${{ secrets.SERVICE_ACCOUNT_KEY }}" > ./serviceAccountKey.json
+      #        shell: bash
 
       # gradle build
       - name: Build with Gradle
@@ -74,4 +73,3 @@ jobs:
             sudo docker ps
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/clouddog
             sudo docker run -d -p 8092:8092 ${{ secrets.DOCKER_USERNAME }}/clouddog
-            sudo docker image prune -f
