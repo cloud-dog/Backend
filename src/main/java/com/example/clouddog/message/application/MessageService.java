@@ -1,18 +1,16 @@
 package com.example.clouddog.message.application;
 
-import com.example.clouddog.board.exception.NotFoundMemberException;
 import com.example.clouddog.member.domain.Member;
 import com.example.clouddog.member.domain.repository.MemberRepository;
+import com.example.clouddog.member.exception.NotFoundMemberException;
 import com.example.clouddog.message.api.dto.request.MessageReqDto;
 import com.example.clouddog.message.api.dto.response.MessageResDto;
 import com.example.clouddog.message.domain.Message;
 import com.example.clouddog.message.domain.repository.MessageRepository;
 import com.example.clouddog.message.exception.NotFoundMessageException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,7 +59,7 @@ public class MessageService {
     }
 
     //메세지 dto매핑
-    public MessageResDto messageListMap(Message message){
+    public MessageResDto messageListMap(Message message) {
         return new MessageResDto(
                 message.getMessageId(),
                 message.getMessageContent(),

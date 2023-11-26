@@ -1,4 +1,4 @@
-package com.example.clouddog.board.exception;
+package com.example.clouddog.member.exception;
 
 public class NotFoundMemberException extends RuntimeException {
     public NotFoundMemberException(final String message) {

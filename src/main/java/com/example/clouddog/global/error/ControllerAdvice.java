@@ -2,12 +2,12 @@ package com.example.clouddog.global.error;
 
 import com.example.clouddog.auth.exception.MemberNotFoundException;
 import com.example.clouddog.board.exception.NotFoundBoardException;
-import com.example.clouddog.board.exception.NotFoundMemberException;
 import com.example.clouddog.comment.exception.NotFoundCommentException;
 import com.example.clouddog.global.error.dto.ErrorResponse;
 import com.example.clouddog.image.exception.NotFoundImageException;
 import com.example.clouddog.member.exception.EqualMemberAndFriendException;
 import com.example.clouddog.member.exception.ExistsFriendShipException;
+import com.example.clouddog.member.exception.NotFoundMemberException;
 import com.example.clouddog.message.exception.NotFoundMessageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

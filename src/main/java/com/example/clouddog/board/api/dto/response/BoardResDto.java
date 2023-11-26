@@ -2,56 +2,43 @@ package com.example.clouddog.board.api.dto.response;
 
 import com.example.clouddog.board.domain.Board;
 import com.example.clouddog.comment.api.dto.response.CommentResDto;
-import java.util.ArrayList;
 import java.util.List;
-import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BoardResDto {
-
-    private Long bdId;
-
-    private String bdTitle;
-
-    private String bdTime;
-
-    private String bdPlace;
-
-    private int bdTag;
-
-    private String bdContent;
-
-    private String imageUrl;
-
-    List<CommentResDto> comments = new ArrayList<>();
-
-    @Builder
-    private BoardResDto(Long bdId, String bdTitle, String bdPlace, String bdTime,
-                        int bdTag, String bdContent, String imageUrl,
-                        List<CommentResDto> comments) {
-        this.bdId = bdId;
-        this.bdTitle = bdTitle;
-        this.bdPlace = bdPlace;
-        this.bdTime = bdTime;
-        this.bdTag = bdTag;
-        this.bdContent = bdContent;
-        this.imageUrl = imageUrl;
-        this.comments = comments;
-    }
+@Builder
+public record BoardResDto(
+        Long boardId,
+        String boardTitle,
+        String boardTime,
+        String boardPlace,
+        int boardTag,
+        String boardContent,
+        String imageUrl,
+        List<CommentResDto> comments
+) {
 
     public static BoardResDto of(Board board, List<CommentResDto> comments) {
         return BoardResDto.builder()
-                .bdId(board.getBoardId())
-                .bdTitle(board.getBoardTitle())
-                .bdPlace(board.getBoardPlace())
-                .bdTime(board.getBoardTime())
-                .bdTag(board.getBoardTag())
-                .bdContent(board.getBoardContent())
+                .boardId(board.getBoardId())
+                .boardTitle(board.getBoardTitle())
+                .boardPlace(board.getBoardPlace())
+                .boardTime(board.getBoardTime())
+                .boardTag(board.getBoardTag())
+                .boardContent(board.getBoardContent())
                 .imageUrl(board.getImage().getImageUrl())
+                .comments(comments)
+                .build();
+    }
+
+    public static BoardResDto notImageOf(Board board, List<CommentResDto> comments) {
+        return BoardResDto.builder()
+                .boardId(board.getBoardId())
+                .boardTitle(board.getBoardTitle())
+                .boardPlace(board.getBoardPlace())
+                .boardTime(board.getBoardTime())
+                .boardTag(board.getBoardTag())
+                .boardContent(board.getBoardContent())
+                .imageUrl("이미지가 없습니다.")
                 .comments(comments)
                 .build();
     }

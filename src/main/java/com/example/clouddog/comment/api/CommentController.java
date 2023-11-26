@@ -27,8 +27,9 @@ public class CommentController {
     }
 
     //댓글 작성
-    @PostMapping("/{memberId}/comments/{bdId}")
-    public ResponseEntity<String> addComment(@PathVariable Long memberId, @PathVariable Long bdId,
+    @PostMapping("/{memberId}/comments/{boardId}")
+    public ResponseEntity<String> addComment(@PathVariable(name = "memberId") Long memberId,
+                                             @PathVariable(name = "boardId") Long bdId,
                                              @RequestBody CommentSaveReqDto commentDto) {
         commentService.commentSave(memberId, bdId, commentDto);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);

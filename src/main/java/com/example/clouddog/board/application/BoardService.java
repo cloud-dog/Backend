@@ -6,7 +6,6 @@ import com.example.clouddog.board.api.dto.response.BoardResDto;
 import com.example.clouddog.board.domain.Board;
 import com.example.clouddog.board.domain.repository.BoardRepository;
 import com.example.clouddog.board.exception.NotFoundBoardException;
-import com.example.clouddog.board.exception.NotFoundMemberException;
 import com.example.clouddog.comment.api.dto.response.CommentResDto;
 import com.example.clouddog.comment.domain.Comment;
 import com.example.clouddog.comment.domain.LikeComment;
@@ -18,6 +17,7 @@ import com.example.clouddog.member.domain.Member;
 import com.example.clouddog.member.domain.MemberWriteBoard;
 import com.example.clouddog.member.domain.repository.MemberRepository;
 import com.example.clouddog.member.domain.repository.MemberWriteBoardRepository;
+import com.example.clouddog.member.exception.NotFoundMemberException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -54,7 +54,7 @@ public class BoardService {
     @Transactional
     public void boardAndImageSave(Long memberId, BoardReqDto boardReqDto) {
         Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
-        Image image = imageRepository.findById(boardReqDto.getImageId()).orElseThrow(NotFoundBoardException::new);
+        Image image = imageRepository.findById(boardReqDto.imageId()).orElseThrow(NotFoundBoardException::new);
 
         Board board = Board.of(boardReqDto, image);
 
@@ -62,6 +62,7 @@ public class BoardService {
         boardRepository.save(board);
     }
 
+    // 이미지가 없을 때 게시글 저장
     @Transactional
     public void boardNotImageSave(Long memberId, BoardReqDto boardReqDto) {
         Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
@@ -90,7 +91,11 @@ public class BoardService {
             comments.add(CommentResDto.of(comment, likeCommentMembers));
         }
 
-        return BoardResDto.of(board, comments);
+        if (board.getImage() == null) {
+            return BoardResDto.notImageOf(board, comments);
+        } else {
+            return BoardResDto.of(board, comments);
+        }
     }
 
     public Page<BoardListResDto> findAllPage(Long memberId, int page, int size) {
@@ -133,8 +138,9 @@ public class BoardService {
 
     // 게시글 수정
     @Transactional
-    public void boardUpdate(Long bdId, BoardReqDto boardDto) {
-        boardRepository.findById(bdId).orElseThrow(NotFoundBoardException::new).update(boardDto);
+    public void boardUpdate(Long boardId, BoardReqDto boardReqDto) {
+        Board board = boardRepository.findById(boardId).orElseThrow(NotFoundBoardException::new);
+        board.update(boardReqDto);
     }
 
     //게시글 삭제
