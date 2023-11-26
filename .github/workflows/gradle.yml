@@ -4,7 +4,8 @@ name: CI/CD using github actions & docker
 # event trigger
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - "main"
 
 permissions:
   contents: read
@@ -44,6 +45,7 @@ jobs:
         # serviceAccountKey.json 생성
       - name: make serviceAccountKey.json
         run: |
+          cd ./src/main/resources
           touch ./serviceAccountKey.json
           echo "${{ secrets.SERVICE_ACCOUNT_KEY }}" > ./serviceAccountKey.json
         shell: bash
