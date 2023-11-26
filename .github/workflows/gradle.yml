@@ -34,32 +34,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-        # 환경별 yml 파일 생성 - prod
-      - name: make application-prod.yml
-        run: |
-          cd ./src/main/resources
-          touch ./application-prod.yml
-          echo "${{ secrets.YML_PROD }}" > ./application-prod.yml
-        shell: bash
-
-      #        # serviceAccountKey.json 생성
-      #      - name: make serviceAccountKey.json
-      #        run: |
-      #          touch ./serviceAccountKey.json
-      #          echo "${{ secrets.SERVICE_ACCOUNT_KEY }}" > ./serviceAccountKey.json
-      #        shell: bash
-
-      # gradle build
-      - name: Build with Gradle
-        run: ./gradlew build -x test
-
-        # docker build & push to production
-      - name: Docker build & push to prod
-        run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/clouddog .
-          docker push ${{ secrets.DOCKER_USERNAME }}/clouddog
-
       ## deploy to production
       - name: Deploy to prod
         uses: appleboy/ssh-action@master
