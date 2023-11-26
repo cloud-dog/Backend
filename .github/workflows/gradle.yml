@@ -39,14 +39,14 @@ jobs:
           cd ./src/main/resources
           touch ./application-prod.yml
           echo "${{ secrets.YML_PROD }}" > ./application-prod.yml
-          shell: bash
+        shell: bash
 
         # serviceAccountKey.json 생성
       - name: make serviceAccountKey.json
         run: |
           touch ./serviceAccountKey.json
           echo "${{ secrets.SERVICE_ACCOUNT_KEY }}" > ./serviceAccountKey.json
-          shell: bash
+        shell: bash
 
       # gradle build
       - name: Build with Gradle
