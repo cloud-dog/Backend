@@ -1,22 +1,19 @@
 package com.example.clouddog.message.api.dto.response;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.example.clouddog.message.domain.Message;
+import lombok.Builder;
 
-
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MessageResDto {
-    private Long msgId;
-
-    private String msgContent;
-
-    private String msgTime;
-
-    public MessageResDto(Long msgId, String msgContent, String msgTime) {
-        this.msgId = msgId;
-        this.msgTime = msgTime;
-        this.msgContent = msgContent;
+@Builder
+public record MessageResDto (
+        Long msgId,
+        String msgContent,
+        String msgTime
+) {
+    public static MessageResDto from(Message message) {
+        return MessageResDto.builder()
+                .msgId(message.getMessageId())
+                .msgContent(message.getMessageContent())
+                .msgTime(message.getMessageTime())
+                .build();
     }
 }

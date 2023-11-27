@@ -76,7 +76,7 @@ public class CommentController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청 값"),
             @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치", content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
-    @PostMapping("/comment/add-likes")
+    @PostMapping("/comments/add-likes")
     public ResponseEntity<String> addCmLikes(@RequestBody LikeCommentReqDto likeCommentReqDto) {
         commentService.addCommentLikes(likeCommentReqDto);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
@@ -88,7 +88,7 @@ public class CommentController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청 값"),
             @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치", content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
-    @PostMapping("/comment/sub-likes")
+    @PostMapping("/comments/sub-likes")
     public ResponseEntity<String> subCmLikes(@RequestBody LikeCommentReqDto likeCommentReqDto) {
         commentService.subCommentLikes(likeCommentReqDto);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);

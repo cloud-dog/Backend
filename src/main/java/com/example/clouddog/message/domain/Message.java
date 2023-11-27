@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -35,16 +36,24 @@ public class Message {
 
     private String messageTime;
 
-    public Message(Member member, String messageContent) {
+    @Builder
+    private Message(Member member, String messageContent) {
         this.member = member;
         this.messageContent = messageContent;
-        LocalDateTime msgTime = LocalDateTime.now();
-        this.messageTime = msgTime.toString();
+        LocalDateTime messageTime = LocalDateTime.now();
+        this.messageTime = messageTime.toString();
+    }
+
+    public static Message of(Member member, MessageReqDto messageReqDto) {
+        return Message.builder()
+                .member(member)
+                .messageContent(messageReqDto.messageContent())
+                .build();
     }
 
     public void update(MessageReqDto messageReqDto) {
-        this.messageContent = messageReqDto.getMsgContent();
-        LocalDateTime msgTime = LocalDateTime.now();
-        this.messageTime = msgTime.toString();
+        this.messageContent = messageReqDto.messageContent();
+        LocalDateTime messageTime = LocalDateTime.now();
+        this.messageTime = messageTime.toString();
     }
 }
