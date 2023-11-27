@@ -45,9 +45,8 @@ jobs:
           envs: GITHUB_SHA
           script: |
             CONTAINER_ID=$(sudo docker ps -q --filter "ancestor=${{ secrets.DOCKER_USERNAME }}/clouddog")
-            if [ ! -z "$CONTAINER_ID" ]; then
-              sudo docker stop $CONTAINER_ID
-            fi
+            sudo docker stop $CONTAINER_ID
+            sudo docker rm -f $CONTAINER_ID
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/clouddog
             sudo docker run -d -p 8092:8092 ${{ secrets.DOCKER_USERNAME }}/clouddog
             sudo docker image prune -f
