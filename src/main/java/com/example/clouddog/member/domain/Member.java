@@ -132,8 +132,8 @@ public class Member implements UserDetails {
         this.mindCount = memberProfileUpdateReqDto.mindCount() * 30;
     }
 
-    public void addComments(Board board, String cmContent, Long previousCommentId) {
-        Comment comment = new Comment(this, board, cmContent, previousCommentId);
+    public void addComments(Board board, String commentContent, Long previousCommentId) {
+        Comment comment = new Comment(this, board, commentContent, previousCommentId);
         this.comments.add(comment);
     }
 

@@ -1,7 +1,7 @@
 package com.example.clouddog.comment.api.dto.request;
 
-public record CommentUpdateReqDto(
+public record LikeCommentReqDto(
         Long commentId,
-        String commentContent
+        Long memberId
 ) {
 }

@@ -2,7 +2,9 @@ package com.example.clouddog.global.error;
 
 import com.example.clouddog.auth.exception.MemberNotFoundException;
 import com.example.clouddog.board.exception.NotFoundBoardException;
+import com.example.clouddog.comment.exception.ExistsLikeCommentException;
 import com.example.clouddog.comment.exception.NotFoundCommentException;
+import com.example.clouddog.comment.exception.NotFoundLikeCommentException;
 import com.example.clouddog.global.error.dto.ErrorResponse;
 import com.example.clouddog.image.exception.NotFoundImageException;
 import com.example.clouddog.member.exception.EqualMemberAndFriendException;
@@ -19,11 +21,11 @@ public class ControllerAdvice {
 
     @ExceptionHandler({
             ExistsFriendShipException.class,
+            ExistsLikeCommentException.class,
             EqualMemberAndFriendException.class
     })
     public ResponseEntity<ErrorResponse> handleInvalidData(RuntimeException e) {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
-
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -33,11 +35,11 @@ public class ControllerAdvice {
             NotFoundBoardException.class,
             NotFoundMemberException.class,
             NotFoundCommentException.class,
-            NotFoundMessageException.class
+            NotFoundMessageException.class,
+            NotFoundLikeCommentException.class
     })
     public ResponseEntity<ErrorResponse> handleNotFoundDate(RuntimeException e) {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
-
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
