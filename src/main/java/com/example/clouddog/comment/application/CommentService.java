@@ -64,7 +64,7 @@ public class CommentService {
 
     //댓글 좋아요 추가
     @Transactional
-    public void addCmLikes(LikeCommentReqDto likeCommentReqDto) {
+    public void addCommentLikes(LikeCommentReqDto likeCommentReqDto) {
         Member member = memberRepository.findById(likeCommentReqDto.memberId())
                 .orElseThrow(NotFoundMemberException::new);
         Comment comment = commentRepository.findById(likeCommentReqDto.commentId()).orElseThrow(NotFoundCommentException::new);
@@ -82,7 +82,7 @@ public class CommentService {
     }
 
     //댓글 좋아요 취소
-    public void subCmLikes(LikeCommentReqDto likeCommentReqDto) {
+    public void subCommentLikes(LikeCommentReqDto likeCommentReqDto) {
         Member member = memberRepository.findById(likeCommentReqDto.memberId())
                 .orElseThrow(NotFoundMemberException::new);
         Comment comment = commentRepository.findById(likeCommentReqDto.commentId()).orElseThrow(NotFoundCommentException::new);

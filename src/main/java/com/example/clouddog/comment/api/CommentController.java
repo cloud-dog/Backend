@@ -78,11 +78,11 @@ public class CommentController {
     })
     @PostMapping("/comment/add-likes")
     public ResponseEntity<String> addCmLikes(@RequestBody LikeCommentReqDto likeCommentReqDto) {
-        commentService.addCmLikes(likeCommentReqDto);
+        commentService.addCommentLikes(likeCommentReqDto);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @Operation(summary = "댓글 좋아요 취소", description = "댓글에 좋아요를 취소합니다.")
+    @Operation(summary = "댓글에 좋아요 취소", description = "댓글에 좋아요를 취소합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SUCCESS"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청 값"),
@@ -90,7 +90,7 @@ public class CommentController {
     })
     @PostMapping("/comment/sub-likes")
     public ResponseEntity<String> subCmLikes(@RequestBody LikeCommentReqDto likeCommentReqDto) {
-        commentService.subCmLikes(likeCommentReqDto);
+        commentService.subCommentLikes(likeCommentReqDto);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
