@@ -20,6 +20,7 @@ import com.example.clouddog.member.domain.repository.MemberWriteBoardRepository;
 import com.example.clouddog.member.exception.NotFoundMemberException;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class BoardService {
 
     private final BoardRepository boardRepository;
@@ -36,19 +38,6 @@ public class BoardService {
     private final CommentRepository commentRepository;
     private final LikeCommentRepository likeCommentRepository;
     private final MemberWriteBoardRepository memberWriteBoardRepository;
-
-    public BoardService(BoardRepository boardRepository, MemberRepository memberRepository,
-                        ImageRepository imageRepository, CommentRepository commentRepository,
-                        LikeCommentRepository likeCommentRepository,
-                        MemberWriteBoardRepository memberWriteBoardRepository) {
-        this.boardRepository = boardRepository;
-        this.memberRepository = memberRepository;
-        this.imageRepository = imageRepository;
-        this.commentRepository = commentRepository;
-        this.likeCommentRepository = likeCommentRepository;
-        this.memberWriteBoardRepository = memberWriteBoardRepository;
-    }
-
 
     // 게시글 저장
     @Transactional
@@ -98,6 +87,8 @@ public class BoardService {
         }
     }
 
+    // 친구한테 보여주는 그것도 손 좀 봐야겠는데, 친구가 아닌데도, 경로 타고 그냥 막 들어올 수 도 있음.
+    // -> FriendShip에서 내 memberId랑 친구의 memberId 비교해서 있으면 리스트 반환해주고 없으면 친구가 아니라는 표시 해주기
     public Page<BoardListResDto> findAllPage(Long memberId, int page, int size) {
         Member member = memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
 

@@ -67,7 +67,7 @@ public class MessageController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @Operation(summary = "메시지 삭제", description = "메시지를 삭합니다.")
+    @Operation(summary = "메시지 삭제", description = "메시지를 삭제합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SUCCESS"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청 값"),
