@@ -76,9 +76,9 @@ public class MemberService {
     }
 
     // 친구 확인
-    public boolean checkFriend(Long myId, Long memberId){
-        Member member = memberRepository.findById(myId).orElseThrow();
-        Member friend = memberRepository.findById(memberId).orElseThrow();
+    public boolean checkFriend(Long memberId, Long friendId){
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        Member friend = memberRepository.findById(friendId).orElseThrow();
 
         return friendsRepository.existsByMemberAndFriend(member, friend);
     }

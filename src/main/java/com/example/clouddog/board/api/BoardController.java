@@ -37,23 +37,42 @@ public class BoardController {
         this.memberService = memberService;
     }
 
+    //본인 아카이빙 불러오기
     @Operation(summary = "추억 아카이빙 리스트 불러오기", description = "본인의 추억 아카이빙을 모두 불러옵니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "추억 아카이빙 불러오기 성공"),
+            @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치", content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
+    })
+    @GetMapping("/{memberId}/boards/{boardTag}")
+    public ResponseEntity<Page<BoardListResDto>>  myScrapList(@PathVariable(name = "memberId") Long memberId,
+                                                             @PathVariable(name = "boardTag") int boardTag,
+                                                             @RequestParam(value = "page", defaultValue = "0") int page,
+                                                             @RequestParam(value = "size", defaultValue = "8") int size) {
+        if (boardTag == 0) {
+            return new ResponseEntity<>(boardService.findAllPage(memberId, page, size), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(boardService.findByTagPage(memberId, boardTag, page, size), HttpStatus.OK);
+        }
+    }
+
+    //친구 아카이빙 불러오기
+    @Operation(summary = "친구의 추억 아카이빙 리스트 불러오기", description = "친구의 추억 아카이빙을 모두 불러옵니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "추억 아카이빙 불러오기 성공"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청, 친구관계 확인"),
             @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치", content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
-    @GetMapping("/{myId}/{memberId}/boards/{boardTag}")
-    public ResponseEntity<Page<BoardListResDto>> myScrapList(@PathVariable(name = "myId") Long myId,
-                                                             @PathVariable(name = "memberId") Long memberId,
+    @GetMapping("/{memberId}/{friendId}/boards/{boardTag}")
+    public ResponseEntity<Page<BoardListResDto>> friendScrapList(@PathVariable(name = "memberId") Long memberId,
+                                                             @PathVariable(name = "friendId") Long friendId,
                                                              @PathVariable(name = "boardTag") int boardTag,
                                                              @RequestParam(value = "page", defaultValue = "0") int page,
                                                              @RequestParam(value = "size", defaultValue = "8") int size) {
-        if (myId.equals(memberId) || memberService.checkFriend(myId, memberId)){
+        if (memberService.checkFriend(memberId, friendId)){
             if (boardTag == 0) {
-                return new ResponseEntity<>(boardService.findAllPage(memberId, page, size), HttpStatus.OK);
+                return new ResponseEntity<>(boardService.findAllPage(friendId, page, size), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(boardService.findByTagPage(memberId, boardTag, page, size), HttpStatus.OK);
+                return new ResponseEntity<>(boardService.findByTagPage(friendId, boardTag, page, size), HttpStatus.OK);
             }
         }else return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
