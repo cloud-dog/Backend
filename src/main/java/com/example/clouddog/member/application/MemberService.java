@@ -74,4 +74,12 @@ public class MemberService {
 
         return friendships.map(friendship -> MemberResDto.of(friendship.getFriend()));
     }
+
+    // 친구 확인
+    public boolean checkFriend(Long memberId, Long friendId){
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        Member friend = memberRepository.findById(friendId).orElseThrow();
+
+        return friendsRepository.existsByMemberAndFriend(member, friend);
+    }
 }
